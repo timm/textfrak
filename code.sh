@@ -2,7 +2,7 @@
 fashion()  { cat data/fashion.txt; }
 downcase() { cat - | tr A-Z a-z ; }
 words()    { cat - | awk '{for(i=1;i<=NF;i++) if ($i) print $i}' ; }
-tokenize() { cat - | sed 's/[,\.\(\);‘’,{}:;]/ /g'  ; }
+tokenize() { cat - | sed 's/[,\(\);‘’,{}:;]/ /g'  ; }
 ngrams()   { cat - | awk '
              BEGIN { split("",a,"") }
                    { a[ length(a) + 1 ] = $1 # here, $1 is the actual word
@@ -14,18 +14,21 @@ ngrams()   { cat - | awk '
                    }}'  
 }
 
+trendy() { cat - | awk '/(chic|fash|cloth|weave|textile|fabric|mode)/'; }
+
 lines() { cat - |wc -l; }
 
 has() { cat - | grep $1 ; }
 hasnt() { cat -  | grep -v $1 ; }
-eg1() { fashion  | tokenize | downcase | words  | ngrams 4 | sort; }
+eg1() { fashion  | tokenize | #downcase |
+        words  | ngrams 4 | sort; }
 
 eg2() { eg1 | uniq -c | sort -n | awk '$1 > 3'; }
 
 eg3() { eg1 | uniq -c | sort -n  ;  }
 
 eg4() {
-  fashion  | tokenize | downcase | words  | ngrams 4 | sort > /tmp/eg4.out;
+  fashion  | tokenize | downcase | words  | ngrams 4 | trendy | sort > /tmp/eg4.out;
   }
 
 eg5() {
