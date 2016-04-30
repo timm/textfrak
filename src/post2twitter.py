@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import tweepy
 import sys
-from twitkeys import keys # you need twitkeys.py for your oauth credentials
+from secretkeys import keys # you need secretkeys.py for your oauth credentials
 
 
 # Starts the api and auth
