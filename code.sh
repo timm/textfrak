@@ -1,6 +1,6 @@
 
 fashion()  { cat data/fashion.txt | ascii ; }
-ascii()    { cat - | tr -cd "[:print:]"  | sed  's/\r//g' ;  }
+ascii()    { cat - | tr -cd "[:print:]"  | sed  's/\\r//g' | sed 's/\./\. /g';  }
 downcase() { cat - | tr A-Z a-z ; }
 words()    { cat - | gawk '{for(i=1;i<=NF;i++) if ($i) print $i}' ; }
 tokenize() { cat - | sed  's/[,\(\);‘’,{}:;]/ /g'  ; }
@@ -20,7 +20,9 @@ trendy() { cat - | gawk '/(chic|fash|cloth|weave|textile|fabric|mode)/'; }
 lines() { cat - |wc -l; }
 
 has() { cat - | grep $1 ; }
+
 hasnt() { cat -  | grep -v $1 ; }
+
 eg1() { fashion  | tokenize | #downcase |
         words  | ngrams 4 | sort; }
 
@@ -42,6 +44,5 @@ clean() {
    rm /tmp/eg*
 }
 
-
-
 r() { reload; }
+
