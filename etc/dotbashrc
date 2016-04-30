@@ -7,7 +7,7 @@ reload() {
 }
 
 e() {
-    /Applications/Emacs.app/Contents/MacOS/Emacs -q -l "$Frak/dotemacs" $* &
+    /Applications/Emacs.app/Contents/MacOS/Emacs -q -l "$Frak/etc/dotemacs" $* &
 }
 
 w() {
