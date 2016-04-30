@@ -1,8 +1,9 @@
 
-fashion()  { cat data/fashion.txt; }
+fashion()  { cat data/fashion.txt | ascii ; }
+ascii()    { cat - | tr -cd "[:print:]"  | sed  's/\r//g' ;  }
 downcase() { cat - | tr A-Z a-z ; }
 words()    { cat - | gawk '{for(i=1;i<=NF;i++) if ($i) print $i}' ; }
-tokenize() { cat - | sed 's/[,\(\);‘’,{}:;]/ /g'  ; }
+tokenize() { cat - | sed  's/[,\(\);‘’,{}:;]/ /g'  ; }
 ngrams()   { cat - | gawk '
              BEGIN { split("",a,"") }
                    { a[ length(a) + 1 ] = $1 # here, $1 is the actual word
