@@ -1,5 +1,7 @@
 # -*- sh -*-
 
+alias ls='ls -G'
+
 reload() {
   . $Frak/code.sh
 }
