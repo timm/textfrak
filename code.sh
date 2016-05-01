@@ -24,7 +24,7 @@ has() { cat - | grep $1 ; }
 hasnt() { cat -  | grep -v $1 ; }
 
 eg1() { fashion  | tokenize | #downcase |
-        words  | ngrams 4 | sort; }
+        words  | ngrams 3 | sort; }
 
 eg2() { eg1 | uniq -c | sort -n | gawk '$1 > 3'; }
 
@@ -45,4 +45,8 @@ clean() {
 }
 
 r() { reload; }
+
+eg6() {
+    eg1 | python src/pick.py
+    }
 
