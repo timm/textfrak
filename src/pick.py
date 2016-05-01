@@ -2,37 +2,19 @@ from __future__ import division,print_function
 import sys,re,random,string
 sys.dont_write_bytecode = True
 
-class o(object):
-  def __init__(i,**d): 
-    i.has().update(d)
-  def has(i)  : return i.__dict__
-  def items(i): return i.has().items()
-  def __getitem__(i, k): return i.has()[k]
-  def __setitem__(i, k, v): i.has()[k]=v
-  def __repr__(i):
-    return i.__class__.__name__+str(i.has())
-  def show(i) : 
-    print(i.__class__.__name__)
-    pretty(i.has(),1)
 
-def any(pairs):
-  r = random.random()
-  for freq,thing in pairs:
-    r -= freq
-    if r <= 0:
-      return thing
-  return pairs[-1][1]
 
-def lines(file=None):
-  if file:
-    for line in open(file):  yield line
-  else:
-    while True:
-      try:   yield raw_input("")
-      except (EOFError):
-        break
+
 
 def rows(file=None,bad=r'["\'\t\r\n]',sep='\s+',nums=[]):
+  def lines():
+    if file:
+      for line in open(file):  yield line
+    else:
+      while True:
+        try:   yield raw_input("")
+        except (EOFError):
+          break
   def str2num(token):
     try: return int(token)
     except ValueError:
@@ -45,17 +27,24 @@ def rows(file=None,bad=r'["\'\t\r\n]',sep='\s+',nums=[]):
     for i,x in enumerate(line):
       line[i] = x.strip()
     return line
-  for line in lines(file):
+  for line in lines():
     data = words(line)
     for num in nums:
       data[num] = str2num(data[num])
     yield data
 
 def say(*lst):
-  for x in lst:
-    sys.stdout.write(str(x))
+  for x in lst: sys.stdout.write(str(x))
   sys.stdout.flush()
-  
+
+def any(pairs):
+  r = random.random()
+  for freq,thing in pairs:
+    r -= freq
+    if r <= 0:
+      return thing
+  return pairs[-1][1]
+
 class node:
   def __init__(i):
     i.n=0
@@ -112,34 +101,40 @@ l =[  list('abcd'), list('abcd'), list('abcd'),list('abce'),
 # for _ in xrange(100):
 #    print("X", ''.join(n.any()))
 
-n=node()
-for row in rows():
-  n.add(row)
+
+
 #n.show()
 
-want=["Chanel","clothing.","jewellry","women","dressing","chic","fashion","Fashion","dress","clothes","vestimentary", "clothing,","cloth","weave","textile","fabric","mode"]
 
-
-found=0
-uppers = [v for v in n.kids.values() if v.k[0].isupper()]
-while found < 10:
-  last = None
-  out=[]
-  
-  out = [random.choice(uppers).k]
-  last = out[-1]
-  for _ in xrange(6):
-    more = n.kids[last]  if last in n.kids else n
-    more = more.any()
-    first = more[0]
-    last = more[-1]
-    out += more
-  if set(out) & set(want) and last[-1] == "." :
-    out =  ' '.join(out)
-    if len(out) < 140:
-      found += 1
-      print("\n",out)
+def gen(want=[], phrases=5, file=None):
+  n=node()
+  for row in rows(file):
+    n.add(row)
+  found=0
+  uppers = [v for v in n.kids.values() if v.k[0].isupper()]
+  while found < 10:
+    last = None
+    out=[]
+    out = [random.choice(uppers).k]
+    last = out[-1]
+    for _ in xrange(phrases):
+      more = n.kids[last]  if last in n.kids else n
+      more = more.any()
+      first = more[0]
+      last = more[-1]
+      out += more
+    if set(out) & set(want) and last[-1] == "." :
+      out =  ' '.join(out)
+      if len(out) < phrases*15:
+        found += 1
+        print("\n",out)
     
+
+gen(["Chanel","clothing.","jewellry","women",
+     "dressing","chic","fashion","Fashion","dress",
+     "clothes","vestimentary", "clothing,","cloth",
+     "weave","textile","fabric","mode"],
+    phrases=15)
 
 
 
