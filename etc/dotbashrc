@@ -1,9 +1,19 @@
+# -*- sh -*-
+
+alias ls='ls -G'
+
 reload() {
-  . $Here/code.sh
+  . $Frak/code.sh
 }
+
 e() {
-    /Applications/Emacs.app/Contents/MacOS/Emacs -q -l "$ZDot" $* &
+    /Applications/Emacs.app/Contents/MacOS/Emacs -q -l "$Frak/etc/dotemacs" $* &
 }
+
+w() {
+    /Applications/TextWrangler.app/Contents/MacOS/TextWrangler  $* &
+}
+
 fake() {
   root=$(git rev-parse --show-toplevel)
   if [ -n "$root" ]; then
@@ -12,6 +22,7 @@ fake() {
     /usr/bin/make $*
   fi
 }
+
 fake1() {
     if [ -f Makefile ]; then
         /usr/bin/make $*
@@ -23,44 +34,12 @@ fake1() {
     fi
     echo "nothing to do"
 }
+
 here() {
     cd $1; basename $PWD;
 }
-PROMPT_COMMAND='echo  -ne "FrakText:\033]0;$(here ../..)/$(here ..)/$(here .)\007";PS1="$(here ../..)/$(here ..)/$(here .) \!> "'
-cat <<'EOF'
 
-                                                   ,:
-                                                 ,' |
-                                                /   :
-      All systems A-OK                        --'   /
-      Stand by to frak text                   \/ />/
-                                             / /_\
-                                          __/   /
-                                          )'-. /
-                                          ./  :\
-                                           /.' '
-                                         '/'
-                                         +
-                                        '
-                                      `.
-                                  .-"-
-                                 (    |
-                              . .-'  '.
-                             ( (.   )8:
-                         .'    / (_  )
-                          _. :(.   )8P  `
-                      .  (  `-' (  `.   .
-                       .  :  (   .a8a)
-                      /_`( "a `a. )"'
-                  (  (/  .  ' )=='
-                 (   (    )  .8"   +
-                   (`'8a.( _(   (
-                ..-. `8P    ) `  )  +
-              -'   (      -ab:  )
-            '    _  `    (8P"Ya
-          _(    (    )b  -`.  ) +
-         ( 8)  ( _.aP" _a   \( \   *
-       +  )/    (8P   (88    )  )
-          (a:f   "     `"       `
-EOF
+PROMPT_COMMAND='echo  -ne "FrakText:\033]0;$(here ../..)/$(here ..)/$(here .)\007";PS1="$(here ../..)/$(here ..)/$(here .) \!> "'
+
+cat $Frak/etc/startupScreen.txt
 reload
