@@ -130,8 +130,8 @@ def gen(want=[], phrases=5, file=None):
         print("\n",out)
     
 
-gen(["Chanel","clothing.","jewellry","women",
-     "dressing","chic","fashion","Fashion","dress",
+gen(["Chanel","clothing","jewellry","women",
+     "dressing","men","chic","fashion","Fashion","dress",
      "clothes","vestimentary", "clothing,","cloth",
      "weave","textile","fabric","mode"],
     phrases=15)
